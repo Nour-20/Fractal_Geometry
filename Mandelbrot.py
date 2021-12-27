@@ -38,15 +38,11 @@ def mandelbrot(x, y, d):
     for i in range(1, 500):
         for i in range(1, 1000):
             if abs(c) > 4:
-                return rgb_conv(i*4)
-            if abs(c) > 3:
                 return rgb_conv(i*3)
-            if abs(c) > 2:
+            if abs(c) > 3:
                 return rgb_conv(i*2)
-            if (i+1) == 999 and abs(c) < 1:
+            if abs(c) > 2:
                 return rgb_conv(i)
-            if (i+1) == 999 and abs(c) < 2 and abs(c) > 1:
-                return rgb_conv(i/10+i)
             c = c**d + c0
     return (0, 0, 0)
 
@@ -63,7 +59,7 @@ def main(img_number, path):
 
         # displaying the progress as percentage
         print("{:.2f} %".format(x / WIDTH * 100.0))
-        
+
         for y in range(img.size[1]):
             pixels[x, y] = mandelbrot((x - (0.65 * WIDTH)) / (0.2*WIDTH),
                                       (y - (0.5*HEIGHT))/(0.3*HEIGHT), (1/24)*img_number)
