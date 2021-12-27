@@ -1,3 +1,4 @@
+# Create a video clip from images provided in a folder
 import cv2
 import os
 import sys
