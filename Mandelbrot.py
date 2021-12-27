@@ -35,15 +35,14 @@ def rgb_conv(i):
 def mandelbrot(x, y, d):
     c0 = complex(x, y)
     c = 0
-    for i in range(1, 500):
-        for i in range(1, 1000):
-            if abs(c) > 4:
-                return rgb_conv(i*3)
-            if abs(c) > 3:
-                return rgb_conv(i*2)
-            if abs(c) > 2:
-                return rgb_conv(i)
-            c = c**d + c0
+    for i in range(1, 1000):
+        if abs(c) > 4:
+            return rgb_conv(i*3)
+        if abs(c) > 3:
+            return rgb_conv(i*2)
+        if abs(c) > 2:
+            return rgb_conv(i)
+        c = c**d + c0
     return (0, 0, 0)
 
 # Main function
