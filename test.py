@@ -1,0 +1,1 @@
+print('Hi abed Hi khara')
