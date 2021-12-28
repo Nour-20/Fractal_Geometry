@@ -7,7 +7,7 @@ import numpy as np
 import colorsys
 import random
 
-# setting the width and the height of the output image as 1024
+# setting the width and the height of the output image 
 WIDTH = 1024
 HEIGHT = 500
 # a function to return a tuple of colors
