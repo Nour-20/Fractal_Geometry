@@ -8,19 +8,19 @@ import colorsys
 import random
 
 # setting the width and the height of the output image as 1024
-WIDTH = 1024
-HEIGHT = 500
+WIDTH = 1280 
+HEIGHT = 720
 # a function to return a tuple of colors
 # as integer value of rgb
 def rgb(i):
     red = random.randint(i%2,i%256)
-    green = random.randint(i%2,i%128)
+    green = random.randint(i%2,i%256)
     blue = random.randint(i%2,i%256)
     color = (red,green,blue)
     return color
 
 def rgb_conv(i):
-    color = 255 * np.array(colorsys.hsv_to_rgb(i/128,i/255,i/128))
+    color = 255 * np.array(colorsys.hsv_to_rgb(i/128,i/64,i/128))
     return tuple(color.astype(int))
 
 # Function to scale the real part
@@ -34,19 +34,21 @@ def scale_img(image,height,r):
 
 # Function defining a Julia Set
 def julia(x,y):
-    c0=complex( -0.7269,0.1889)
-    R=abs(c0)+1
-    cx=scale_real(x,WIDTH,R)
-    cy=scale_img(y,WIDTH/2,R)
+
+    c0=complex(-0.835, -0.2321)
+    R=abs(c0)+1 # escape radius
+
+    zx=scale_real(x,WIDTH,R)
+    zy=scale_img(y,WIDTH/2,R)
+    z = complex(zx,zy)
+
     i=0
     iter_max=1000
-    while i<iter_max and cx**2+cy**2<R**2:
-        ctemp= cx**2 - cy**2
-        cy=2*cx*cy + c0.imag
-        cx= ctemp + c0.real
+    while i<iter_max and abs(z)<(R**2):
+        z = z**2 + c0
         i+=1
     
-    if i==iter_max:
+    if i == iter_max:
         return (0,0,255)
     else:
         return rgb(i)
@@ -54,7 +56,7 @@ def julia(x,y):
 
 
 # creating the new image in RGB mode
-img = Image.new('RGB', (WIDTH, HEIGHT))
+img = Image.new('RGB', (WIDTH, HEIGHT), color='blue')
 pixels = img.load()
 
 for x in range(img.size[0]):

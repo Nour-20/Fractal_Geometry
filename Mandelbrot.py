@@ -9,8 +9,18 @@ import os
 import sys
 
 
-# setting the width and height of the output image as 1024
-WIDTH = 1920
+# setting the width and height of the output image 
+# 460 480
+# 720 576
+# 720 480
+# 1280 720 
+# 1440 1080 
+# 1920 1080 
+# 2048 1080
+# 3840 2160
+# 4096 2160
+
+WIDTH = 1440 
 HEIGHT = 1080
 
 # a function to return a tuple of colors
@@ -25,23 +35,17 @@ HEIGHT = 1080
 #     return color
 
 
-def rgb_conv(i):
-    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, 1.0/(i+1), i/128.0))
+def rgb(i):
+    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, 0.85, i/12.0))
     return tuple(color.astype(int))
 
 # function defining a mandelbrot
-
-
 def mandelbrot(x, y, d):
     c0 = complex(x, y)
     c = 0
     for i in range(1, 1000):
-        if abs(c) > 4:
-            return rgb_conv(i*3)
-        if abs(c) > 3:
-            return rgb_conv(i*2)
         if abs(c) > 2:
-            return rgb_conv(i)
+            return rgb(i)
         c = c**d + c0
     return (0, 0, 0)
 
@@ -93,7 +97,7 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.realpath(__file__))
 
     # Frame count
-    start_frame = 1
+    start_frame = 191
     end_frame = 24*10
 
     for img_number in range(start_frame,end_frame):
