@@ -65,7 +65,7 @@ def main(img_number, path):
 
         for y in range(img.size[1]):
             pixels[x, y] = mandelbrot((x - (0.65 * WIDTH)) / (0.2*WIDTH),
-                                      (y - (0.5*HEIGHT))/(0.3*HEIGHT), (1/24)*img_number)
+                                      (y - (0.5*HEIGHT))/(0.3*HEIGHT), (1/24)*240)
 
     # to save and display the created fractal after
     # completing the given number of iterations
@@ -97,8 +97,8 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.realpath(__file__))
 
     # Frame count
-    start_frame = 191
-    end_frame = 24*10
+    start_frame = 240
+    end_frame = 250
 
     for img_number in range(start_frame,end_frame):
         main(img_number, path)
