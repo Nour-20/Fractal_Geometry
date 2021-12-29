@@ -31,11 +31,14 @@ video_name = image_folder+'mandelbrot.mp4'
 frame = cv2.imread(os.path.join(image_folder, images[0]))
 # data
 height, width, number_of_channels = frame.shape
-codec = cv2.VideoWriter_fourcc(*'H264')  # Video coding
-video = cv2.VideoWriter(video_name, codec, 10, (width, height))
+codec = cv2.VideoWriter_fourcc(*'mp4v')  # Video coding
+video = cv2.VideoWriter(video_name, codec, 8, (width, height))
 
+print("Starting Video Creation.....")
 for image in images:
     video.write(cv2.imread(os.path.join(image_folder, image)))
 
 cv2.destroyAllWindows()
 video.release()
+
+print("Video Created!!")
