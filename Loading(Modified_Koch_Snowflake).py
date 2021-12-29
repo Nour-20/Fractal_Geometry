@@ -1,6 +1,4 @@
 # Python program to print partial Koch Curve.
-# importing the libraries : turtle standard 
-# graphics library for python
 from turtle import *
   
 #function to create koch snowflake or koch curve

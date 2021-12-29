@@ -1,4 +1,3 @@
-
 # Python code for Tree Of Life 
 
 # Import necessary libraries
@@ -20,11 +19,7 @@ class Point:
 
 # Function drawing a line 
 def Draw(start, end, image):
-    # start[0]-->x start
-    # start[1]-->y start
-    # end[0]-->x end
-    # end[1]-->y end
-    image.line([(start.x,start.y),(end.x,end.y)])
+    image.line([(start.x,start.y),(end.x,end.y)], fill='black',width=5)
     
 
 # Recursive Function Tree
@@ -35,27 +30,28 @@ def Tree(start,end,length,levels,image):
         Draw(start,end,image)
         
         angle = math.pi/6
+        length /= 2
 
         # Right branch
         start_right = Point(end.x,end.y)
-        end_right = Point(math.cos(angle)*length/2 + start_right.x,start_right.y - (math.sin(angle)*length/2))
+        end_right = Point(math.cos(angle)*length + start_right.x,start_right.y - (math.sin(angle)*length/2))
 
-        Tree(start_right,end_right,length/2,levels-1,image)
+        Tree(start_right,end_right,length,levels-1,image)
 
         # Left branch   
         start_left = Point(end.x,end.y)
-        end_left = Point(-math.cos(angle)*length/2 + start_left.x,start_left.y - (math.sin(angle)*length/2 ))
+        end_left = Point(-math.cos(angle)*length + start_left.x,start_left.y - (math.sin(angle)*length/2 ))
 
-        Tree(start_left,end_left,length/2,levels-1,image)
+        Tree(start_left,end_left,length,levels-1,image)
 
 
 
 # creating the new image in RGB mode
-img = Image.new('RGB', (WIDTH, HEIGHT))
+img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)  
 
 length = 200
-level = 8
+level = 10
 
 startPoint= Point(WIDTH/2,HEIGHT)
 endPoint = Point(WIDTH/2,HEIGHT-200)
