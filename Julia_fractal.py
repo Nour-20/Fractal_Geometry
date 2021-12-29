@@ -3,6 +3,7 @@
 
 # Import necessary libraries
 from PIL import Image, ImageEnhance
+from math import sqrt
 import numpy as np
 import colorsys
 import random
@@ -36,7 +37,7 @@ def scale_img(image,height,r):
 def julia(x,y):
 
     c0=complex(-0.835, -0.2321)
-    R=abs(c0)+1 # escape radius
+    R=(1+sqrt(1+(4*abs(c0))))/2+1 # escape radius
 
     zx=scale_real(x,WIDTH,R)
     zy=scale_img(y,WIDTH/2,R)
