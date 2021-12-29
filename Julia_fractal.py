@@ -50,7 +50,7 @@ def julia(x,y):
         i+=1
     
     if i == iter_max:
-        return (0,0,255)
+        return (0,0,0)
     else:
         return rgb(i)
 

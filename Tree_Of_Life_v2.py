@@ -19,45 +19,43 @@ class Point:
 
 
 # Function drawing a line
-def Draw(start, end, image):
-    image.line([(start.x, start.y), (end.x, end.y)], fill='black', width=5)
+def Draw(start, length, image, angle = pi/2):
+    end = Point(cos(angle)*length + start.x,start.y - (sin(angle)*length))
+    image.line([(start.x, start.y), (end.x, end.y)], fill='black', width=2)
+    return end
 
 
 # Recursive Function Tree
-def Tree(start, length, levels, image):
+def Tree(start, length, levels, image, angle = pi/2):
     if levels == 0:
         return None
     else:
-        # wide angle and length
-        angle = pi/3
+        # fork and length
+        fork = pi/10
         length /= 2
 
-        # Get 3 branches of the tree
-        top_point = Point(start.x, start.y - length)
-
-        left_point = Point(start.x + sin(angle)*length,
-                           start.y-cos(angle)*length)
-
-        right_point = Point(start.x-sin(angle)*length,
-                            start.y-cos(angle)*length)
-
         # Draw
-        Draw(start, top_point, image)
-        Draw(start, left_point, image)
-        Draw(start, right_point, image)
+        left_point=Draw(start, length, image, angle-fork) # left
+        Tree(left_point, length, levels-1, image, angle-fork)
 
-        # recursion
-        Tree(top_point, length, levels-1, image)
-        Tree(left_point, length, levels-1, image)
-        Tree(right_point, length, levels-1, image)
+        right_point=Draw(start, length, image, angle+fork) # right
+        Tree(right_point, length, levels-1, image, angle+fork)
+
+        top_point = Draw(start, length, image, angle-fork/4) # top
+        Tree(top_point, length, levels-1, image, angle-fork/4)
+
+        top_point = Draw(start, length, image, angle+fork/4) # top
+        Tree(top_point, length, levels-1, image, angle+fork/4)
+        
+        
 
 
 # creating the new image in RGB mode
 img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)
 
-length = 200
-level = 5
+length = 400
+level = 10
 
 startPoint = Point(WIDTH/2, HEIGHT)
 Tree(startPoint, length=length, levels=level, image=img1)

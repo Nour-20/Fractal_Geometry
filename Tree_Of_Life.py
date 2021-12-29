@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 
 # setting the width and the height of the output image 
 WIDTH = 1024
-HEIGHT = 500
+HEIGHT = 1000
 
 class Point:
     def __init__(self,x,y):
@@ -23,26 +23,22 @@ def Draw(start, end, image):
     
 
 # Recursive Function Tree
-def Tree(start,end,length,levels,image):
+def Tree(start,end,length,levels,image, angle = math.pi/2):
     if levels == 0:
         return None
-    else:
+    else:        
+        length = 2*length/3
+
+        # branch
+        start = Point(end.x,end.y)
+        end = Point(math.cos(angle)*length + start.x,start.y - (math.sin(angle)*length))
+
+        # right
+        Tree(start,end,length,levels-1,image,angle-math.pi/10)
+        #left
+        Tree(start,end,length,levels-1,image, angle+math.pi/10)
+
         Draw(start,end,image)
-        
-        angle = math.pi/4
-        length /= 2
-
-        # Right branch
-        start_right = Point(end.x,end.y)
-        end_right = Point(math.cos(angle)*length + start_right.x,start_right.y - (math.sin(angle)*length/2))
-
-        Tree(start_right,end_right,length,levels-1,image)
-
-        # Left branch   
-        start_left = Point(end.x,end.y)
-        end_left = Point(-math.cos(angle)*length + start_left.x,start_left.y - (math.sin(angle)*length/2 ))
-
-        Tree(start_left,end_left,length,levels-1,image)
 
 
 
@@ -50,8 +46,8 @@ def Tree(start,end,length,levels,image):
 img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)  
 
-length = 500
-level = 8
+length = 200
+level = 15
 
 startPoint= Point(WIDTH/2,HEIGHT)
 endPoint = Point(WIDTH/2,HEIGHT-200)
