@@ -172,6 +172,6 @@ im = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 # Draw red and yellow triangles on it and save
 draw = ImageDraw.Draw(im)
 
-koch_snowflake(p1, p2, p3, level=10, image=draw)
+koch_snowflake(p1, p2, p3, level=8, image=draw)
 
 im.show()

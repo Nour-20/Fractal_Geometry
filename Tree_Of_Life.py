@@ -29,7 +29,7 @@ def Tree(start,end,length,levels,image):
     else:
         Draw(start,end,image)
         
-        angle = math.pi/6
+        angle = math.pi/4
         length /= 2
 
         # Right branch
@@ -50,8 +50,8 @@ def Tree(start,end,length,levels,image):
 img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)  
 
-length = 200
-level = 10
+length = 500
+level = 8
 
 startPoint= Point(WIDTH/2,HEIGHT)
 endPoint = Point(WIDTH/2,HEIGHT-200)
