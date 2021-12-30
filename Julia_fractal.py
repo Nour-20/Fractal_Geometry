@@ -7,6 +7,7 @@ from math import sqrt
 import numpy as np
 import colorsys
 import random
+import os
 
 # setting the width and the height of the output image 
 WIDTH = 1280 
@@ -36,7 +37,7 @@ def scale_img(image,height,r):
 # Function defining a Julia Set
 def julia(pixelx,pixely,x0,y0):
 
-    c0=complex(x0, y0)
+    c0=complex(x0,y0)
     R=(1+sqrt(1+(4*abs(c0))))/2+1 # escape radius
 
     zx=scale_real(pixelx,WIDTH,R)
@@ -56,6 +57,9 @@ def julia(pixelx,pixely,x0,y0):
 
 
 def evaluateJulia(x0,y0):
+    # get path of the current python file directory
+    path= os.path.dirname(os.path.realpath(__file__))
+    
     # creating the new image in RGB mode
     img = Image.new('RGB', (WIDTH, HEIGHT), color='blue')
     pixels = img.load()
@@ -75,7 +79,7 @@ def evaluateJulia(x0,y0):
 
     # to display the created fractal after
     # completing the given number of iterations
-    img.save("julia.png")
+    img.save(path + "/julia.png")
 
 if __name__ == '__main__':
     evaluateJulia(-0.835, -0.2321)
