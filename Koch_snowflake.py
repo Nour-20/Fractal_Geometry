@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 ERROR = 0.1
 WIDTH = 1280
 HEIGHT = 720
-
+X = 0
 
 class Point:
     def __init__(self, x, y):
@@ -101,14 +101,15 @@ def getCoordinates(point1, point2, distance, place="inner"):
 # Koch snowflake algorithm
 
 
-def koch_snowflake(vertex1, vertex2, vertex3, level, image, step=0):
+def koch_snowflake(vertex1, vertex2, vertex3, level, image):
     """ This function takes as arguments the coordinates of the 3 vertices of the triangle"""
 
     if level == 0:
         return None
 
     else:
-        step = step + 1
+        global X 
+        X = X + 1
 
         midpoint1 = computeMidPoint(vertex1, vertex2)
         midpoint2 = computeMidPoint(vertex2, vertex3)
@@ -161,6 +162,7 @@ def koch_snowflake(vertex1, vertex2, vertex3, level, image, step=0):
         koch_snowflake(vertex1, sidePoint12, sidePoint13, level-1, image)
         koch_snowflake(vertex2, sidePoint21, sidePoint23, level-1, image)
         koch_snowflake(vertex3, sidePoint32, sidePoint31, level-1, image)
+        print("{:.2f} %".format(X))
 
 
 p1 = Point((WIDTH/2)-400, (HEIGHT/2)+(200*(3**0.5)/3))
@@ -172,6 +174,6 @@ im = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 # Draw red and yellow triangles on it and save
 draw = ImageDraw.Draw(im)
 
-koch_snowflake(p1, p2, p3, level=8, image=draw)
+koch_snowflake(p1, p2, p3, level=5, image=draw)
 
 im.show()

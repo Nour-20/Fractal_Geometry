@@ -96,9 +96,9 @@ if __name__ == '__main__':
     # get the path to the current python file directory
     path = os.path.dirname(os.path.realpath(__file__))
 
-    # Frame count
-    start_frame = 240
-    end_frame = 250
+    # # Frame count
+    # start_frame = 240
+    # end_frame = 250
 
-    for img_number in range(start_frame,end_frame):
-        main(img_number, path)
+    # for img_number in range(start_frame,end_frame):
+    #     main(img_number, path)

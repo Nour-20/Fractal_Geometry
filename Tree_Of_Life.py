@@ -47,7 +47,7 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)  
 
 length = 200
-level = 15
+level = 20
 
 startPoint= Point(WIDTH/2,HEIGHT)
 endPoint = Point(WIDTH/2,HEIGHT-200)

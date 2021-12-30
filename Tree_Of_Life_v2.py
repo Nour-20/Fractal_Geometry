@@ -55,7 +55,7 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
 img1 = ImageDraw.Draw(img)
 
 length = 400
-level = 10
+level = 20
 
 startPoint = Point(WIDTH/2, HEIGHT)
 Tree(startPoint, length=length, levels=level, image=img1)
