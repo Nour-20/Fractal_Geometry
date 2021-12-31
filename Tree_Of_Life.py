@@ -3,10 +3,11 @@
 # Import necessary libraries
 import math
 from PIL import Image, ImageDraw
+import os
 
 # setting the width and the height of the output image 
-WIDTH = 1024
-HEIGHT = 1000
+WIDTH = 1280
+HEIGHT = 720
 
 class Point:
     def __init__(self,x,y):
@@ -42,15 +43,20 @@ def Tree(start,end,length,levels,image, angle = math.pi/2):
 
 
 
-# creating the new image in RGB mode
-img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
-img1 = ImageDraw.Draw(img)  
+def evaluateTree1(level):
+    # get path of the current python file directory
+    path= os.path.dirname(os.path.realpath(__file__))
+    # creating the new image in RGB mode
+    img = Image.new('RGB', (WIDTH, HEIGHT), color='white')
+    img1 = ImageDraw.Draw(img)
 
-length = 200
-level = 20
+    length = 300
 
-startPoint= Point(WIDTH/2,HEIGHT)
-endPoint = Point(WIDTH/2,HEIGHT-200)
-Tree(startPoint,endPoint,length=length,levels=level, image=img1)
+    startPoint= Point(WIDTH/2,2*HEIGHT)
+    endPoint = Point(WIDTH/2,HEIGHT)
+    Tree(startPoint,endPoint,length=length,levels=level, image=img1)
 
-img.show()
+    img.save(path + "/tree1.png")
+
+if __name__ == '__main__':
+    evaluateTree1(20)

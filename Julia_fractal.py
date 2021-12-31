@@ -15,9 +15,9 @@ HEIGHT = 720
 # a function to return a tuple of colors
 # as integer value of rgb
 def rgb(i):
-    red = random.randint(i%2,i%256)
-    green = random.randint(i%2,i%256)
-    blue = random.randint(i%2,i%256)
+    red = 255-random.randint(i%2,i%256)
+    green = 255-random.randint(i%2,i%256)
+    blue = 255-random.randint(i%2,i%256)
     color = (red,green,blue)
     return color
 
@@ -38,7 +38,7 @@ def scale_img(image,height,r):
 def julia(pixelx,pixely,x0,y0):
 
     c0=complex(x0,y0)
-    R=(1+sqrt(1+(4*abs(c0))))/2+1 # escape radius
+    R=(1+sqrt(1+(4*abs(c0))))/2+0.1 # escape radius
 
     zx=scale_real(pixelx,WIDTH,R)
     zy=scale_img(pixely,WIDTH/2,R)
@@ -61,7 +61,7 @@ def evaluateJulia(x0,y0):
     path= os.path.dirname(os.path.realpath(__file__))
     
     # creating the new image in RGB mode
-    img = Image.new('RGB', (WIDTH, HEIGHT), color='blue')
+    img = Image.new('RGB', (WIDTH, HEIGHT))
     pixels = img.load()
 
     for pixelx in range(img.size[0]):
@@ -74,7 +74,7 @@ def evaluateJulia(x0,y0):
     #image brightness enhancer
     enhancer = ImageEnhance.Contrast(img)
 
-    factor = 3 #gives original image
+    factor = 10 #gives original image
     img = enhancer.enhance(factor)
 
     # to display the created fractal after

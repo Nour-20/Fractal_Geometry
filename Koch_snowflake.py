@@ -1,12 +1,12 @@
 # Python code for Koch SnowFlakes Fractal
 import sys
 from PIL import Image, ImageDraw
+import os
 
 # Constants
 ERROR = 0.1
 WIDTH = 1280
 HEIGHT = 720
-X = 0
 
 class Point:
     def __init__(self, x, y):
@@ -108,8 +108,6 @@ def koch_snowflake(vertex1, vertex2, vertex3, level, image):
         return None
 
     else:
-        global X 
-        X = X + 1
 
         midpoint1 = computeMidPoint(vertex1, vertex2)
         midpoint2 = computeMidPoint(vertex2, vertex3)
@@ -153,7 +151,7 @@ def koch_snowflake(vertex1, vertex2, vertex3, level, image):
 
         # Draw a triangle
         image.polygon([(vertex1.x, vertex1.y), (vertex2.x, vertex2.y),
-                      (vertex3.x, vertex3.y)], fill='black', outline='black')
+                      (vertex3.x, vertex3.y)], fill='red', outline='red')
 
         # recursion
         koch_snowflake(summit1, sidePoint21, sidePoint12, level-1, image)
@@ -162,18 +160,25 @@ def koch_snowflake(vertex1, vertex2, vertex3, level, image):
         koch_snowflake(vertex1, sidePoint12, sidePoint13, level-1, image)
         koch_snowflake(vertex2, sidePoint21, sidePoint23, level-1, image)
         koch_snowflake(vertex3, sidePoint32, sidePoint31, level-1, image)
-        print("{:.2f} %".format(X))
 
+def evaluateKoch(level):
+    # get path of the current python file directory
+    path= os.path.dirname(os.path.realpath(__file__))
+    
+    p1 = Point((WIDTH/2)-400, (HEIGHT/1.75)+(200*(3**0.5)/3))
+    p2 = Point((WIDTH/2)+400, (HEIGHT/1.75)+(200*(3**0.5)/3))
+    p3 = Point((WIDTH/2), (HEIGHT/1.75)-(200*(3**0.5)))
 
-p1 = Point((WIDTH/2)-400, (HEIGHT/2)+(200*(3**0.5)/3))
-p2 = Point((WIDTH/2)+400, (HEIGHT/2)+(200*(3**0.5)/3))
-p3 = Point((WIDTH/2), (HEIGHT/2)-(200*(3**0.5)))
+    # Create empty black canvas
+    im = Image.new('RGB', (WIDTH, HEIGHT), color='white')
+    # Draw red and yellow triangles on it and save
+    draw = ImageDraw.Draw(im)
 
-# Create empty black canvas
-im = Image.new('RGB', (WIDTH, HEIGHT), color='white')
-# Draw red and yellow triangles on it and save
-draw = ImageDraw.Draw(im)
+    koch_snowflake(p1, p2, p3, level=level, image=draw)
 
-koch_snowflake(p1, p2, p3, level=5, image=draw)
+    # to display the created fractal after
+    # completing the given number of iterations
+    im.save(path + "/koch.png")
 
-im.show()
+if __name__ == '__main__':
+    evaluateKoch(4)

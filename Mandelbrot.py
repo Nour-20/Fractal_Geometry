@@ -1,12 +1,12 @@
 # Python code for Mandelbrot Fractal
 
 # Import necessary libraries
+from PIL import Image, ImageEnhance
 from PIL import Image
 import numpy as np
 import colorsys
 import time
 import os
-import sys
 
 
 # setting the width and height of the output image 
@@ -36,23 +36,26 @@ HEIGHT = 720
 
 
 def rgb(i):
-    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, 0.85, i/12.0))
+    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, 0.64, i/128.0))
     return tuple(color.astype(int))
 
 # function defining a mandelbrot
-def mandelbrot(x, y, d):
+def mandelbrot(x, y, dimension):
     c0 = complex(x, y)
     c = 0
-    for i in range(1, 1000):
+    for i in range(1, 500):
         if abs(c) > 2:
             return rgb(i)
-        c = c**d + c0
+        c = c**dimension + c0
     return (0, 0, 0)
 
 # Main function
 
 
-def main(img_number, path):
+def evaluateMandelbrot(dimension):
+    # get the path to the current python file directory
+    path = os.path.dirname(os.path.realpath(__file__))
+
     # creating the new image in RGB mode
     img = Image.new('RGB', (WIDTH, HEIGHT))
     pixels = img.load()
@@ -65,40 +68,18 @@ def main(img_number, path):
 
         for y in range(img.size[1]):
             pixels[x, y] = mandelbrot((x - (0.65 * WIDTH)) / (0.2*WIDTH),
-                                      (y - (0.5*HEIGHT))/(0.3*HEIGHT), (1/24)*img_number)
+                                      (y - (0.5*HEIGHT))/(0.3*HEIGHT), dimension)
 
-    # to save and display the created fractal after
+    #image brightness enhancer
+    enhancer = ImageEnhance.Contrast(img)
+
+    factor = 10 #gives original image
+    img = enhancer.enhance(factor)
+
+    # to display the created fractal after
     # completing the given number of iterations
-
-    if(sys.platform in ['linux', 'linux2']):
-        # Save image for linux system
-        if(img_number < 10):
-            img.save(path + "/Images/Mandelbrot/"+"im_00{}.jpg".format(img_number))
-        elif (img_number < 100):
-            img.save(path + "/Images/Mandelbrot/"+"im_0{}.jpg".format(img_number))
-        else:
-            img.save(path + "/Images/Mandelbrot/"+"im_{}.jpg".format(img_number))
-    if(sys.platform in ['win32', 'cygwin', 'msys']):
-        # Save image for window system
-        if(img_number < 10):
-            img.save(path+"\Images\Mandelbrot\im_00{}.jpg".format(img_number))
-        elif(img_number < 100):
-            img.save(path+"\Images\Mandelbrot\im_0{}.jpg".format(img_number))
-        else:
-            img.save(path+"\Images\Mandelbrot\im_{}.jpg".format(img_number))
-
-    end = time.time()
-    print("time is ", end-start)
+    img.save(path + "/mandelbrot.png")
 
 
 if __name__ == '__main__':
-
-    # get the path to the current python file directory
-    path = os.path.dirname(os.path.realpath(__file__))
-
-    # Frame count
-    start_frame = 1
-    end_frame = 24*5
-
-    for img_number in range(start_frame,end_frame):
-        main(img_number, path)
+    evaluateMandelbrot(2)
