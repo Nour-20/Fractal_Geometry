@@ -181,4 +181,4 @@ def evaluateKoch(level):
     im.save(path + "/koch.png")
 
 if __name__ == '__main__':
-    evaluateKoch(4)
+    evaluateKoch(6)
