@@ -1,5 +1,4 @@
 # Python code for T-Square Fractal
-
 from PIL import Image, ImageDraw
 import os
 
