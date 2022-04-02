@@ -51,13 +51,13 @@ def rgb(i):
 
 def scale_px(a):
     a = a*(4)/WIDTH
-    a = a + 3
+    a = a + 0
     return a
 
 
 def scale_py(b):
     b = b*(4)/HEIGHT
-    b = b + 2
+    b = b + 0.05
     return b
 
 
