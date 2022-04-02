@@ -1,7 +1,4 @@
 # Python code for T-Square Fractal
-import sys
-from turtle import clear
-from webbrowser import get
 from PIL import Image, ImageDraw
 
 # Constants
