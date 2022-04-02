@@ -1,5 +1,6 @@
 # Python code for Sierpinski Carpet
 from PIL import Image, ImageDraw
+import os
 
 # setting the width and the height of the output image 
 WIDTH = 1280
@@ -58,17 +59,26 @@ def Sierp_Carp(point,length,levels,fill,image):
 
     Draw_Square(p1,p2,p3,p4,fill='black',image=image)
 
-img = Image.new('RGB', (WIDTH, HEIGHT))
-img1 = ImageDraw.Draw(img)  
 
-fill='white'
-level = 4
 
-square_length = 300
-p1 = Point((WIDTH/2)-(square_length/2), (HEIGHT/2)-(square_length/2))
-p2, p3, p4 = get_square_points(p1,square_length)
+def evaluateSierp_Carp(level):
+    # get path of the current python file directory
+    path= os.path.dirname(os.path.realpath(__file__))
+    # creating the new image in RGB mode
+    img = Image.new('RGB', (WIDTH, HEIGHT))
+    img1 = ImageDraw.Draw(img)  
 
-Draw_Square(p1,p2,p3,p4,fill,img1)
-Sierp_Carp(p1,square_length,levels=level,fill=fill,image=img1)
+    fill='white'
 
-img.show()
+    square_length = 300
+    p1 = Point((WIDTH/2)-(square_length/2), (HEIGHT/2)-(square_length/2))
+    p2, p3, p4 = get_square_points(p1,square_length)
+
+    Draw_Square(p1,p2,p3,p4,fill,img1)
+    Sierp_Carp(p1,square_length,levels=level,fill=fill,image=img1)
+
+    img.save(path + "/sierp_carp.png")
+    print("Done!")
+
+if __name__ == '__main__':
+    evaluateSierp_Carp(4)

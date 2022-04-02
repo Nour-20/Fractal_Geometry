@@ -1,6 +1,7 @@
 # Python code for T-Square Fractal
 
 from PIL import Image, ImageDraw
+import os
 
 # Constants
 WIDTH = 1280
@@ -50,17 +51,23 @@ def T_Square(point,length,levels,fill,image):
     Draw_Square(point,p2,p3,p4,fill,image)
 
 
-img = Image.new('RGB', (WIDTH, HEIGHT))
-img1 = ImageDraw.Draw(img)  
 
-fill='white'
-level = 6
+def evaluateTSqu(level):
+    # get path of the current python file directory
+    path= os.path.dirname(os.path.realpath(__file__))
+    # creating the new image in RGB mode
+    img = Image.new('RGB', (WIDTH, HEIGHT))
+    img1 = ImageDraw.Draw(img)  
 
-square_length = 300
-p1 = Point((WIDTH/2)-(square_length/2), (HEIGHT/2)-(square_length/2))
-T_Square(p1,square_length,levels=level,fill=fill,image=img1)
+    fill='white'
 
-img.show()
+    square_length = 300
+    p1 = Point((WIDTH/2)-(square_length/2), (HEIGHT/2)-(square_length/2))
+    T_Square(p1,square_length,levels=level,fill=fill,image=img1)
 
-print("Done!")
+    img.save(path + "/t_square.png")
+    print("Done!")
+
+if __name__ == '__main__':
+    evaluateTSqu(6)
 
