@@ -36,14 +36,14 @@ def computeDistance(point1, point2):
 
 def get_line_params(point1, point2):
 
-    slope = ((point2.y-point1.y)/(point2.x-point1.x))
-    b = (point1.y - slope*point1.x)
+    a = ((point2.y-point1.y)/(point2.x-point1.x))
+    b = (point1.y - a*point1.x)
 
-    if b - (point2.y - slope*point2.x) > ERROR:
+    if b - (point2.y - a*point2.x) > ERROR:
         print(f"Error in {get_line_params}")
         sys.exit()
 
-    return slope, b
+    return a, b
 
 # Solve the quadratic equation
 
@@ -151,7 +151,7 @@ def koch_snowflake(vertex1, vertex2, vertex3, level, image):
 
         # Draw a triangle
         image.polygon([(vertex1.x, vertex1.y), (vertex2.x, vertex2.y),
-                      (vertex3.x, vertex3.y)], fill='red', outline='red')
+                      (vertex3.x, vertex3.y)],fill='red',outline='red')
 
         # recursion
         koch_snowflake(summit1, sidePoint21, sidePoint12, level-1, image)
@@ -168,17 +168,16 @@ def evaluateKoch(level):
     p1 = Point((WIDTH/2)-400, (HEIGHT/1.75)+(200*(3**0.5)/3))
     p2 = Point((WIDTH/2)+400, (HEIGHT/1.75)+(200*(3**0.5)/3))
     p3 = Point((WIDTH/2), (HEIGHT/1.75)-(200*(3**0.5)))
-
-    # Create empty black canvas
+    
+    # Create empty white canvas
     im = Image.new('RGB', (WIDTH, HEIGHT), color='white')
-    # Draw red and yellow triangles on it and save
     draw = ImageDraw.Draw(im)
 
     koch_snowflake(p1, p2, p3, level=level, image=draw)
 
-    # to display the created fractal after
-    # completing the given number of iterations
     im.save(path + "/koch.png")
 
 if __name__ == '__main__':
     evaluateKoch(4)
+    nour = Point(3,4)
+    print(nour)

@@ -41,12 +41,13 @@ def rgb(i):
 
 # function defining a mandelbrot
 def mandelbrot(x, y, dimension):
-    c0 = complex(x, y)
-    c = 0
-    for i in range(1, 500):
-        if abs(c) > 2:
+    c = complex(x, y)
+    z = 0
+    for i in range(1, 100):
+        if abs(z) > 2:
             return rgb(i)
-        c = c**dimension + c0
+        # z =complex(abs(z.real),abs(z.imag)) #Burning ship
+        z = z**dimension+ c
     return (0, 0, 0)
 
 # Main function
@@ -79,6 +80,8 @@ def evaluateMandelbrot(dimension):
     # to display the created fractal after
     # completing the given number of iterations
     img.save(path + "/mandelbrot.png")
+
+    print("Done!")
 
 
 if __name__ == '__main__':

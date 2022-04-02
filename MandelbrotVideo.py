@@ -43,7 +43,7 @@ def rgb(i):
 def mandelbrot(x, y, d):
     c0 = complex(x, y)
     c = 0
-    for i in range(1, 1000):
+    for i in range(1, 100):
         if abs(c) > 2:
             return rgb(i)
         c = c**d + c0

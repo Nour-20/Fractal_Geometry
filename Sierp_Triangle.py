@@ -28,12 +28,11 @@ def Sierp(p1,p2,p3,fill,levels,image):
         m2=mid(p1,p3)
         m3=mid(p2,p3)
 
-        Draw_Triang(m1,m2,m3,fill,image)
-
         Sierp(p1,m1,m2,fill='white',levels=levels-1,image=image)
         Sierp(p2,m1,m3,fill='white',levels=levels-1,image=image)
         Sierp(p3,m2,m3,fill='white',levels=levels-1,image=image)
         
+        Draw_Triang(m1,m2,m3,fill='white',image=image)
 
 
 def evaluateSierp(level):
@@ -54,6 +53,7 @@ def evaluateSierp(level):
     Sierp(point1,point2,point3,fill=fill,levels=level, image=img1)
 
     img.save(path + "/sierp.png")
+    print("Done!")
 
 if __name__ == '__main__':
     evaluateSierp(8)

@@ -57,6 +57,7 @@ def evaluateTree1(level):
     Tree(startPoint,endPoint,length=length,levels=level, image=img1)
 
     img.save(path + "/tree1.png")
+    print("Done!")
 
 if __name__ == '__main__':
     evaluateTree1(20)
