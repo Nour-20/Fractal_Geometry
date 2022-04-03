@@ -1,9 +1,6 @@
-# Python code for Mandelbrot Fractal
-
 # Import necessary libraries
 from PIL import Image, ImageEnhance
 from PIL import Image
-import random as rnd
 from math import log
 import sys
 import os
@@ -25,14 +22,6 @@ HEIGHT = 480
 MAX_LAMBDA = sys.maxsize
 MIN_LAMBDA = -sys.maxsize
 
-def clamp(val, min, max):
-    if(val > max):
-        val = max
-    if(val < min):
-        val = min
-    return val
-
-
 def rgb(i):
     red =0
     green=0
@@ -42,22 +31,22 @@ def rgb(i):
         blue =  250
     elif(i<0):
         i = abs(i)
-        red = 255-int(i*255/pow(i,2))
-        green = 255-int(i*255/pow(i,1.5))
-        blue = 0
+        red = 255-int(i*255/pow(i,1.48))
+        green = 255-int(i*255/pow(i,1.3))
+        blue = 255-int(i*255/pow(i,1.1))
     color = (red,green,blue)
     return color
 
 
 def scale_px(a):
     a = a*(4)/WIDTH
-    a = a + 0
+    a = a+0.01 
     return a
 
 
 def scale_py(b):
     b = b*(4)/HEIGHT
-    b = b + 0.05
+    b = b +0.01
     return b
 
 
@@ -72,13 +61,6 @@ def Lyapunov(a, b, sequence, N):
     a = scale_px(a)
     b = scale_py(b)
 
-    for char in sequence:
-        if(char == 'a'):
-            r = a
-        else:
-            r = b
-        x = r*x*(1-x)
-
     for i in range(N):
         for char in sequence:
             if(char == 'a'):
@@ -88,8 +70,8 @@ def Lyapunov(a, b, sequence, N):
             x = r*x*(1-x)
             deriv *= abs(r*(1-2*x))
 
-        if(deriv < 0.01):
-            deriv = 0.01
+        if(deriv < 0.0001):
+            deriv = 0.0001
 
         sum_deriv += log(deriv)
 
@@ -102,7 +84,7 @@ def Lyapunov(a, b, sequence, N):
 
 
 # Main function
-def evaluateLyapunov(sequence, max_iteration):
+def evaluateLyapunov(sequence, max_iteration=50):
     # get the path to the current python file directory
     path = os.path.dirname(os.path.realpath(__file__))
 
@@ -132,6 +114,6 @@ def evaluateLyapunov(sequence, max_iteration):
 
 if __name__ == '__main__':
 
-    sequence = "baaba"
-    max_iteration = 50
-    evaluateLyapunov(sequence, max_iteration)
+    sequence = "bbbbaaaa"
+    # max_iteration = 80
+    evaluateLyapunov(sequence)

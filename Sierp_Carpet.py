@@ -29,10 +29,6 @@ def side_points(point,length):
     v2=Point(point.x+2*(length)/3,point.y)
     v3=Point(point.x,point.y+length/3)
     v4=Point(point.x,point.y+2*(length)/3)
-    # v5=Point(point.x+length,point.y+length/3)
-    # v6=Point(point.x+length,point.y+2*(length)/3)
-    # v7=Point(point.x+length/3,point.y+length)
-    # v8=Point(point.x+2*(length)/3,point.y+length)
     return v1,v2,v3,v4
 
 def Sierp_Carp(point,length,levels,fill,image):
@@ -70,7 +66,7 @@ def evaluateSierp_Carp(level):
 
     fill='white'
 
-    square_length = 300
+    square_length = 500
     p1 = Point((WIDTH/2)-(square_length/2), (HEIGHT/2)-(square_length/2))
     p2, p3, p4 = get_square_points(p1,square_length)
 

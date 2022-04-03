@@ -1,4 +1,5 @@
 
+from msilib import sequence
 import sys
 import os
 from PyQt5.QtCore import Qt
@@ -20,10 +21,13 @@ from PyQt5.QtWidgets import (QApplication,
 # Import fractal algorithm
 from Mandelbrot import evaluateMandelbrot
 from Julia_fractal import evaluateJulia
+from Lyapunov import evaluateLyapunov
 from Tree_Of_Life import evaluateTree1
 from Tree_Of_Life_v2 import evaluateTree2
 from Koch_snowflake import evaluateKoch
 from Sierp_Triangle import evaluateSierp
+from Sierp_Carpet import evaluateSierp_Carp
+from T_Square import evaluateTSqu
 
 
 class Fractal_GUI(QMainWindow):
@@ -31,7 +35,7 @@ class Fractal_GUI(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Fractal Geometry")
-        self.setFixedSize(720, 480)
+        self.setFixedSize(1280, 860)
 
         self.createTab()
 
@@ -43,16 +47,22 @@ class Fractal_GUI(QMainWindow):
         # QWidget-Tab screen
         self.tab1 = QWidget()  # Mandelbrot
         self.tab2 = QWidget()  # Julia
-        self.tab3 = QWidget()  # Tree
-        self.tab4 = QWidget()  # Koch
-        self.tab5 = QWidget()  # sierp
+        self.tab3 = QWidget()  # Lyapunov
+        self.tab4 = QWidget()  # Tree
+        self.tab5 = QWidget()  # Koch
+        self.tab6 = QWidget()  # sierp
+        self.tab7 = QWidget()  # sierp_Carpet
+        self.tab8 = QWidget()  # T-square
 
         temp = {
             "Mandelbrot": self.tab1,
             "Julia": self.tab2,
-            "Tree of life": self.tab3,
-            "Koch snowflake": self.tab4,
-            "Sierpinski": self.tab5
+            "Lyapunov": self.tab3,
+            "Tree of life": self.tab4,
+            "Koch snowflake": self.tab5,
+            "Sierpinski Triangle": self.tab6,
+            "Sierpinski Carpet": self.tab7,
+            "T-square": self.tab8
         }
 
         for key, value in temp.items():
@@ -63,9 +73,12 @@ class Fractal_GUI(QMainWindow):
         # Create tabs contents
         self.createMandelbrotTab()
         self.createJuliaTab()
+        self.createLyapunovTab()
         self.createTreeTab()
         self.createKochTab()
         self.createSierpTab()
+        self.createSierpCarpetTab()
+        self.createTsquareTab()
 
     def createMandelbrotTab(self):
         self.tab1.layoutV = QVBoxLayout()
@@ -119,42 +132,42 @@ class Fractal_GUI(QMainWindow):
         # Set vertical layout as principal layout
         self.tab2.setLayout(self.tab2.layoutV)
 
-    def createTreeTab(self):
+    def createLyapunovTab(self):
         self.tab3.layoutV = QVBoxLayout()
-        # Tree of life pics
-        self.tab3.labelpic1 = QLabel()
-        self.tab3.labelpic1.setAlignment(Qt.AlignCenter)
-        self.tab3.labelpic2 = QLabel()
-        self.tab3.labelpic2.setAlignment(Qt.AlignCenter)
-        self.tab3.layoutHTop = QHBoxLayout()
-        self.tab3.layoutHTop.addWidget(self.tab3.labelpic1)
-        self.tab3.layoutHTop.addWidget(self.tab3.labelpic2)
+        self.tab3.labelpic = QLabel()  # Lyapunov pics
+        self.tab3.labelpic.setAlignment(Qt.AlignCenter)
 
         # Horizontal Layout
         self.tab3.layoutH = QHBoxLayout()
-        self.tab3.labeltext = QLabel("Level")
+        self.tab3.labeltext = QLabel("Sequence")
         self.tab3.button = QPushButton("Run")
 
-        self.tab3.SpinBox = QSpinBox()
-        self.tab3.SpinBox.setMaximum(20)
-        self.tab3.SpinBox.setMinimum(1)
+        self.tab3.sequence = QLineEdit()
+        self.tab3.sequence.setFrame(True)
+        self.tab3.sequence.setPlaceholderText("Enter Sequence, e.g., \"AB\"")
 
         self.tab3.layoutH.addWidget(self.tab3.labeltext)
-        self.tab3.layoutH.addWidget(self.tab3.SpinBox)
-        self.tab3.layoutH.addSpacing(1000)
+        self.tab3.layoutH.addWidget(self.tab3.sequence)
+        self.tab3.layoutH.addSpacing(300)
         self.tab3.layoutH.addWidget(self.tab3.button)
 
         # Vertical Layout
-        self.tab3.layoutV.addLayout(self.tab3.layoutHTop)
+        self.tab3.layoutV.addWidget(self.tab3.labelpic)
         self.tab3.layoutV.addLayout(self.tab3.layoutH)
 
         # Set vertical layout as principal layout
         self.tab3.setLayout(self.tab3.layoutV)
 
-    def createKochTab(self):
+    def createTreeTab(self):
         self.tab4.layoutV = QVBoxLayout()
-        self.tab4.labelpic = QLabel()  # Snowflake pics
-        self.tab4.labelpic.setAlignment(Qt.AlignCenter)
+        # Tree of life pics
+        self.tab4.labelpic1 = QLabel()
+        self.tab4.labelpic1.setAlignment(Qt.AlignCenter)
+        self.tab4.labelpic2 = QLabel()
+        self.tab4.labelpic2.setAlignment(Qt.AlignCenter)
+        self.tab4.layoutHTop = QHBoxLayout()
+        self.tab4.layoutHTop.addWidget(self.tab4.labelpic1)
+        self.tab4.layoutHTop.addWidget(self.tab4.labelpic2)
 
         # Horizontal Layout
         self.tab4.layoutH = QHBoxLayout()
@@ -162,7 +175,7 @@ class Fractal_GUI(QMainWindow):
         self.tab4.button = QPushButton("Run")
 
         self.tab4.SpinBox = QSpinBox()
-        self.tab4.SpinBox.setMaximum(6)
+        self.tab4.SpinBox.setMaximum(20)
         self.tab4.SpinBox.setMinimum(1)
 
         self.tab4.layoutH.addWidget(self.tab4.labeltext)
@@ -171,16 +184,16 @@ class Fractal_GUI(QMainWindow):
         self.tab4.layoutH.addWidget(self.tab4.button)
 
         # Vertical Layout
-        self.tab4.layoutV.addWidget(self.tab4.labelpic)
+        self.tab4.layoutV.addLayout(self.tab4.layoutHTop)
         self.tab4.layoutV.addLayout(self.tab4.layoutH)
 
         # Set vertical layout as principal layout
         self.tab4.setLayout(self.tab4.layoutV)
 
-    def createSierpTab(self):
+    def createKochTab(self):
         self.tab5.layoutV = QVBoxLayout()
-        self.tab5.labelpic = QLabel()  # Sierpinski pics
-        self.tab1.labelpic.setAlignment(Qt.AlignCenter)
+        self.tab5.labelpic = QLabel()  # Snowflake pics
+        self.tab5.labelpic.setAlignment(Qt.AlignCenter)
 
         # Horizontal Layout
         self.tab5.layoutH = QHBoxLayout()
@@ -188,7 +201,7 @@ class Fractal_GUI(QMainWindow):
         self.tab5.button = QPushButton("Run")
 
         self.tab5.SpinBox = QSpinBox()
-        self.tab5.SpinBox.setMaximum(10)
+        self.tab5.SpinBox.setMaximum(6)
         self.tab5.SpinBox.setMinimum(1)
 
         self.tab5.layoutH.addWidget(self.tab5.labeltext)
@@ -203,6 +216,83 @@ class Fractal_GUI(QMainWindow):
         # Set vertical layout as principal layout
         self.tab5.setLayout(self.tab5.layoutV)
 
+    def createSierpTab(self):
+        self.tab6.layoutV = QVBoxLayout()
+        self.tab6.labelpic = QLabel()  # Sierpinski pics
+        self.tab6.labelpic.setAlignment(Qt.AlignCenter)
+
+        # Horizontal Layout
+        self.tab6.layoutH = QHBoxLayout()
+        self.tab6.labeltext = QLabel("Level")
+        self.tab6.button = QPushButton("Run")
+
+        self.tab6.SpinBox = QSpinBox()
+        self.tab6.SpinBox.setMaximum(10)
+        self.tab6.SpinBox.setMinimum(1)
+
+        self.tab6.layoutH.addWidget(self.tab6.labeltext)
+        self.tab6.layoutH.addWidget(self.tab6.SpinBox)
+        self.tab6.layoutH.addSpacing(1000)
+        self.tab6.layoutH.addWidget(self.tab6.button)
+
+        # Vertical Layout
+        self.tab6.layoutV.addWidget(self.tab6.labelpic)
+        self.tab6.layoutV.addLayout(self.tab6.layoutH)
+
+        # Set vertical layout as principal layout
+        self.tab6.setLayout(self.tab6.layoutV)
+
+    def createSierpCarpetTab(self):
+        self.tab7.layoutV = QVBoxLayout()
+        self.tab7.labelpic = QLabel()  #pics
+        self.tab7.labelpic.setAlignment(Qt.AlignCenter)
+
+        # Horizontal Layout
+        self.tab7.layoutH = QHBoxLayout()
+        self.tab7.labeltext = QLabel("Level")
+        self.tab7.button = QPushButton("Run")
+
+        self.tab7.SpinBox = QSpinBox()
+        self.tab7.SpinBox.setMaximum(5)
+        self.tab7.SpinBox.setMinimum(1)
+
+        self.tab7.layoutH.addWidget(self.tab7.labeltext)
+        self.tab7.layoutH.addWidget(self.tab7.SpinBox)
+        self.tab7.layoutH.addSpacing(1000)
+        self.tab7.layoutH.addWidget(self.tab7.button)
+
+        # Vertical Layout
+        self.tab7.layoutV.addWidget(self.tab7.labelpic)
+        self.tab7.layoutV.addLayout(self.tab7.layoutH)
+
+        # Set vertical layout as principal layout
+        self.tab7.setLayout(self.tab7.layoutV)
+
+    def createTsquareTab(self):
+        self.tab8.layoutV = QVBoxLayout()
+        self.tab8.labelpic = QLabel()  #pics
+        self.tab8.labelpic.setAlignment(Qt.AlignCenter)
+
+        # Horizontal Layout
+        self.tab8.layoutH = QHBoxLayout()
+        self.tab8.labeltext = QLabel("Level")
+        self.tab8.button = QPushButton("Run")
+
+        self.tab8.SpinBox = QSpinBox()
+        self.tab8.SpinBox.setMaximum(6)
+        self.tab8.SpinBox.setMinimum(1)
+
+        self.tab8.layoutH.addWidget(self.tab8.labeltext)
+        self.tab8.layoutH.addWidget(self.tab8.SpinBox)
+        self.tab8.layoutH.addSpacing(1000)
+        self.tab8.layoutH.addWidget(self.tab8.button)
+
+        # Vertical Layout
+        self.tab8.layoutV.addWidget(self.tab8.labelpic)
+        self.tab8.layoutV.addLayout(self.tab8.layoutH)
+
+        # Set vertical layout as principal layout
+        self.tab8.setLayout(self.tab8.layoutV)
 
 class Fractal_Control:
 
@@ -221,9 +311,12 @@ class Fractal_Control:
     def _connectSignals(self):
         self._view.tab1.button.clicked.connect(self.exec_mandelbrot)
         self._view.tab2.button.clicked.connect(self.exec_Julia)
-        self._view.tab3.button.clicked.connect(self.exec_tree)
-        self._view.tab4.button.clicked.connect(self.exec_koch)
-        self._view.tab5.button.clicked.connect(self.exec_sierp)
+        self._view.tab3.button.clicked.connect(self.exec_Lyapunov)
+        self._view.tab4.button.clicked.connect(self.exec_tree)
+        self._view.tab5.button.clicked.connect(self.exec_koch)
+        self._view.tab6.button.clicked.connect(self.exec_sierp)
+        self._view.tab7.button.clicked.connect(self.exec_sierp_carpet)
+        self._view.tab8.button.clicked.connect(self.exec_tsquare)
 
     def exec_mandelbrot(self):
         dimension = self._view.tab1.dimension.text()
@@ -269,27 +362,51 @@ class Fractal_Control:
 
         self._draw('/julia.png', self._view.tab2.labelpic)
 
+    def exec_Lyapunov(self):
+        """@TODO Should check if sequence contain letters other than A and B """
+        sequence = self._view.tab3.sequence.text()
+
+        msgBox = QMessageBox()
+        if (sequence.strip() == ''):
+            msgBox.setText("Sequence is empty!")
+            return None
+        self._evaluate[2](sequence)
+
+        self._draw('/Lyapunov.png', self._view.tab3.labelpic)
+
     def exec_tree(self):
-        level = self._view.tab3.SpinBox.value()
-        self._evaluate[2](level)
+        level = self._view.tab4.SpinBox.value()
+        self._evaluate[3](level)
         if level > 10:
             level = 10
-        self._evaluate[3](level)
-
-        self._draw('/tree1.png', self._view.tab3.labelpic1)
-        self._draw('/tree2.png', self._view.tab3.labelpic2)
-
-    def exec_koch(self):
-        level = self._view.tab4.SpinBox.value()
         self._evaluate[4](level)
 
-        self._draw('/koch.png', self._view.tab4.labelpic)
+        self._draw('/tree1.png', self._view.tab4.labelpic1)
+        self._draw('/tree2.png', self._view.tab4.labelpic2)
 
-    def exec_sierp(self):
+    def exec_koch(self):
         level = self._view.tab5.SpinBox.value()
         self._evaluate[5](level)
 
-        self._draw('/sierp.png', self._view.tab5.labelpic)
+        self._draw('/koch.png', self._view.tab5.labelpic)
+
+    def exec_sierp(self):
+        level = self._view.tab6.SpinBox.value()
+        self._evaluate[6](level)
+
+        self._draw('/sierp.png', self._view.tab6.labelpic)
+    
+    def exec_sierp_carpet(self):
+        level = self._view.tab7.SpinBox.value()
+        self._evaluate[7](level)
+
+        self._draw('/sierp_carp.png', self._view.tab7.labelpic)
+    
+    def exec_tsquare(self):
+        level = self._view.tab8.SpinBox.value()
+        self._evaluate[8](level)
+
+        self._draw('/t_square.png', self._view.tab8.labelpic)
 
 
 def main():
@@ -299,8 +416,7 @@ def main():
     view = Fractal_GUI()
     view.show()
     # Create instances of the model and the controller
-    model = (evaluateMandelbrot, evaluateJulia, evaluateTree1,
-             evaluateTree2, evaluateKoch, evaluateSierp)
+    model = (evaluateMandelbrot, evaluateJulia, evaluateLyapunov, evaluateTree1,evaluateTree2, evaluateKoch, evaluateSierp, evaluateSierp_Carp, evaluateTSqu)
     controller = Fractal_Control(view, model)
     # execute main loop
     sys.exit(app.exec_())

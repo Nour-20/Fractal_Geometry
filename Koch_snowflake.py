@@ -178,10 +178,6 @@ def evaluateKoch(level):
     im.save(path + "/koch.png")
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     evaluateKoch(4)
     nour = Point(3,4)
     print(nour)
-=======
-    evaluateKoch(6)
->>>>>>> a5a1d2c6b8bc6bdcc1186e570cbe076a28cc0412
