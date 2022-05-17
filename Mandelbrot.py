@@ -36,7 +36,7 @@ HEIGHT = 720
 
 
 def rgb(i):
-    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, 0.64, i/128.0))
+    color = 255 * np.array(colorsys.hsv_to_rgb(i / 255.0, i/64, i/128.0))
     return tuple(color.astype(int))
 
 # function defining a mandelbrot
@@ -46,8 +46,10 @@ def mandelbrot(x, y, dimension):
     for i in range(1, 100):
         if abs(z) > 2:
             return rgb(i)
-        # z =complex(abs(z.real),abs(z.imag)) #Burning ship
-        z = z**dimension+ c
+        # z =complex(abs(z.real),abs(z.imag))**2+c #Burning ship
+        # z = z.conjugate()**2+c
+        z = complex(z.real,abs(z.imag))**2+c
+        # z = z**dimension+ c #Mandelbrot
     return (0, 0, 0)
 
 # Main function

@@ -22,31 +22,32 @@ HEIGHT = 480
 MAX_LAMBDA = sys.maxsize
 MIN_LAMBDA = -sys.maxsize
 
+
 def rgb(i):
-    red =0
-    green=0
-    blue=0
+    red = 0
+    green = 0
+    blue = 0
     if(i > 0):
         green = 120
-        blue =  250
-    elif(i<0):
+        blue = 250
+    elif(i < 0):
         i = abs(i)
-        red = 255-int(i*255/pow(i,1.48))
-        green = 255-int(i*255/pow(i,1.3))
-        blue = 255-int(i*255/pow(i,1.1))
-    color = (red,green,blue)
+        red = 255-int(i*255/pow(i, 1.48))
+        green = 255-int(i*255/pow(i, 1.3))
+        blue = 255-int(i*255/pow(i, 1.1))
+    color = (red, green, blue)
     return color
 
 
 def scale_px(a):
     a = a*(4)/WIDTH
-    a = a+0.01 
+    a = a + 0.0001
     return a
 
 
 def scale_py(b):
-    b = b*(4)/HEIGHT
-    b = b +0.01
+    b = b*(3.4)/HEIGHT
+    b = b + 0.0001
     return b
 
 
@@ -56,7 +57,7 @@ def Lyapunov(a, b, sequence, N):
     sum_deriv = 0  # lambda
 
     r = 0
-    x = 0.5
+    x = 0.5  # initial value
 
     a = scale_px(a)
     b = scale_py(b)
@@ -99,7 +100,7 @@ def evaluateLyapunov(sequence, max_iteration=50):
             pixels[x, y] = Lyapunov(
                 x, y, sequence.strip().lower(), max_iteration)
 
-    #image brightness enhancer
+    # image brightness enhancer
     enhancer = ImageEnhance.Contrast(img)
 
     factor = 10  # gives original image
